@@ -1,0 +1,150 @@
+﻿
+        <div class="modal-header">
+            <h3 class="modal-title">Экспертиза оборудования</h3>
+        </div>
+        <div class="modal-body">
+            <div class="stepwizard">
+                <div class="stepwizard-row setup-panel">
+                    <div class="stepwizard-step">
+                        <a href="#step-1" type="button" class="btn btn-primary btn-circle" id="hrefStep1" ng-click="hrefClick($event)">1</a>
+                        <p>Выбор типа оборудования</p>
+                    </div>
+                    <div class="stepwizard-step">
+                        <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled" id="hrefStep2" ng-click="hrefClick($event)">2</a>
+                        <p>Выбор типа неисправностей</p>
+                    </div>
+                    <div class="stepwizard-step">
+                        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled" id="hrefStep3" ng-click="hrefClick($event)">3</a>
+                        <p>Стоимость ремонта</p>
+                    </div>
+                    <div class="stepwizard-step">
+                        <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled" id="hrefStep4" ng-click="hrefClick($event)">4</a>
+                        <p>Заключение</p>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="row setup-content" id="step-1" ng-show="showStepOne">
+                <div class="col-xs-12">
+                    <div class="col-md-12">
+                        <h3 class="text-info">Выбор типа оборудования</h3>
+                        <div class="form-group">
+                            <info-equipment></info-equipment>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Тип оборудования</label>
+                            <select class="form-control" name="TypeOfEquipment" ng-model="typeOfEquipmentSelected" ng-options="item.TypeId as item.Name for item in typeOfEquipment" ng-change="selectTypeOfEquipment()"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info"
+                                    popover-trigger="mouseenter" popover="Период от момента постановки СВиОТ на учет и до истечения гарантийного срока эксплуатации СВиОТ">Гарантийный срок (лет) -{{Warranty}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-success popovers"
+                                   popover-trigger="mouseenter" popover="Период от момента окончания гарантийного срока эксплуатации до истечения срока, указанного как эффективный срок эксплуатации">Эффективный срок (лет)-{{Effective}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-warning popovers"
+                                   popover-trigger="mouseenter" popover="Период с момента окончания эффективного срока эксплуатации, до момента истечения срока, указанного как предельный срок эксплуатации">Предельный срок (лет)-{{Limit}}</label>
+                        </div>
+                        <div class="form-group">
+                            <div role="alert" id="LifeTimeAlert">Общий срок использования (лет) - {{Lifetime}}</div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row setup-content" id="step-2" ng-show="showStepTwo">
+                <div class="col-xs-12">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <info-equipment></info-equipment>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3>Выбор типа неисправностей </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4" ng-repeat="item in equipmentMalfunction">
+                                        <input class="checkbox col-md-2" type="checkbox" checklist-model="checkedItem.equipmentFault" checklist-value="item" />{{item.Name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row setup-content" id="step-3" ng-show="showStepThree">
+                <div class="col-xs-12">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="form-group">
+                            <info-equipment></info-equipment>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3> Стоимость ремонта (руб.) </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="input-group number-spinner">
+                                        <span class="input-group-btn data-dwn">
+                                            <button class="btn btn-default btn-info" data-dir="dwn" ng-mousedown="spinnerDown('down')" ng-mouseup="spinnerDown('up')" ng-disabled="isSpinnerDown"><span class="glyphicon glyphicon-minus"></span></button>
+                                        </span>
+                                        <input type="text" class="form-control text-center" ng-model="Price" min="0" max="{{MaxPrice}}">
+                                        
+                                        <span class="input-group-btn data-up">
+                                            <button class="btn btn-default btn-info" data-dir="up" ng-mousedown="spinnerUp('down')" ng-mouseup="spinnerUp('up')" ng-disabled="isSpinnerUp"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row setup-content" id="step-4" ng-show="showStepFour">
+                <div class="col-xs-12">
+                    <div class="col-md-12">
+                        <h3>Заключение, результат экспертизы.. </h3>
+                        <div class="form-group">
+                            <info-equipment></info-equipment>
+                        </div>
+                        <input type="hidden" ng-model="expertise.EquipmentId" />
+                        <div class="form-group">
+                            <label class="control-label">Результат экспертизы:</label>
+                            <textarea rows="6" class="form-control" style="min-width: 100%" ng-model="expertise.Reason"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Заключение:</label>
+                            <textarea rows="6" class="form-control" style="min-width: 100%" ng-model="expertise.Conclusion"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Акт составлен:</label>
+                            <textarea rows="2" class="form-control" style="min-width: 100%" ng-model="expertise.Staff"></textarea>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+            <!--form -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary nextBtn pull-right" type="button" ng-click="stepOne()" ng-show="showStepOne">Дальше</button>
+            <button class="btn btn-primary nextBtn pull-right" type="button" ng-click="stepTwo()" ng-show="showStepTwo">Дальше</button>
+            <button class="btn btn-primary pull-right" type="button" ng-click="stepThree()" ng-show="showStepThree">Дальше</button>
+            <button class="btn btn-success nextBtn pull-right" type="button" ng-click="stepFour()" ng-show="showStepFour">Финиш!</button>
+            
+            <button class="btn" ng-click="cancel()">Отмена</button>
+        </div>
+    

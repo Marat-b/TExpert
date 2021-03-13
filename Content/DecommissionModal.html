@@ -1,0 +1,33 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Списание оборудования</h3>
+</div>
+<div class="modal-body">
+    <!-- form name="formDecommission" novalidate -->
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-4">Списано</label>
+                <div class="col-md-8">
+                    <input type="checkbox" class="checkbox" ng-model="formDecommission.StateOfDecommission" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Дата списания</label>
+                <div class="col-md-6">
+                    <p class="input-group">
+                        <input class="form-control" type="text" datepicker-popup="dd.MM.yyyy" ng-model="formDecommission.DateOfDecommission"
+                               close-text="Закрыть" current-text="Сегодня" clear-text="Очистить" is-open="opened" datepicker-options="dateOptions" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                        </p>
+                </div>
+            </div>
+        </div>
+
+    <!-- form -->
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok(formDecommission)">Сохранить</button>
+    <button class="btn" ng-click="cancel()">Отмена</button>
+</div>
