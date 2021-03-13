@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Типы сообщений для служебной записки";
+}
+
+<div>
+    <div ng-controller="Gontroller">
+        <h2>Типы сообщений для служебной записки</h2>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="hidden" ng-model="message.ListId" name="ListId" />
+                    <label class="text-info" >Кому предназначается служебная записка</label>
+                    <textarea rows="5" class="form-control" style="min-width: 100%" ng-model="message.Item1" placeholder='Руководитель вышестоящего подразделения - кому предназначается служебная записка'
+                              popover="Руководитель вышестоящего подразделения - кому предназначается служебная записка"
+                              popover-trigger="mouseenter"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    
+                    <label class="text-info">Отвественный работник</label>
+                    <textarea rows="5" class="form-control" style="min-width: 100%" ng-model="message.Item2" placeholder='Ответственный работник, от чего имени составлена служебная записка.'
+                              popover="Ответственный работник, от чего имени составлена служебная записка."
+                              popover-trigger="mouseenter"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    
+                    <label class="text-info">Руководитель отделения</label>
+                    <textarea rows="5" class="form-control" style="min-width: 100%" ng-model="message.Item3" placeholder='Руководитель отделения (подразделения).'
+                              popover="Руководитель отделения (подразделения)."
+                              popover-trigger="mouseenter"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+
+                <button class="btn btn-primary" type="button" ng-click="btnMessage()">Сохранить</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/texp-message-two")
+}
+
+
+

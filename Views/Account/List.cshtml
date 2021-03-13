@@ -1,0 +1,61 @@
+﻿
+
+
+@{
+    ViewBag.Title = "Список";
+}
+
+<h2>Список пользователей</h2>
+<div ng-controller="userCtrl">
+    <div class="col-md-2 col-md-offset-1" data-toggle="tooltip" data-placement="bottom" title="Создание учётных данных,нового пользователя">
+        <button class="btn btn-success" ng-click="editUser(0)"><span class="glyphicon glyphicon-plus"></span></button>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>
+                Логин {{test}}
+            </th>
+
+            <th>
+                Ф. И. О.
+            </th>
+            <th>Должность</th>
+            <th>Редактировать</th>
+            <th>Сбросить пароль</th>
+            <th>Удалить</th>
+
+
+        </tr>
+        </thead>
+
+        <tr ng-repeat="item in  userList">
+            <td>{{item.Id}}</td>
+            <td>
+                {{item.UserName}}
+            </td>
+            <td>
+                {{item.FIO}}
+            </td>
+            <td>
+                {{item.Position}}
+            </td>
+            <td>
+                <button class="btn btn-info" ng-click="editUser(item.Id)"><span class="glyphicon glyphicon-edit"></span></button>
+            </td>
+            <td>
+                <button class="btn btn-info" ng-click="resetUserPassword(item.Id,item.UserName,item.FIO)"><span class="glyphicon glyphicon-refresh"></span></button>
+            </td>
+            <td>
+                <button class="btn btn-info" ng-click="deleteUser(item.Id)"><span class="glyphicon glyphicon-trash"></span></button>
+            </td>
+        </tr>
+
+
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/texp-user-list")
+}

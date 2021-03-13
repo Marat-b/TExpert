@@ -1,0 +1,514 @@
+﻿@{
+    ViewBag.Title = "Экспертиза";
+}
+
+<h2>Wizard</h2>
+<div ng-app="Appz">
+    <div ng-controller="Gontroller">
+        <div class="stepwizard">
+            <div class="stepwizard-row setup-panel">
+                <div class="stepwizard-step">
+                    <a href="#step-1" type="button" class="btn btn-primary btn-circle" id="hrefStep1">1</a>
+                    <p>Выбор типа оборудования</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled" id="hrefStep2" >2</a>
+                    <p>Выбор типа неисправностей</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled" id="hrefStep3">3</a>
+                    <p>Стоимость ремонта</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled" id="hrefStep4">4</a>
+                    <p>Заключение</p>
+                </div>
+            </div>
+        </div>
+        <!--form role="form" -->
+        
+        <div class="row setup-content" id="step-1">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3 class="text-info">Выбор типа оборудования</h3>
+                    <div class="form-group">
+                        <info-equipment></info-equipment>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label">Тип оборудования</label>
+                        <select class="form-control" name="TypeOfEquipment" ng-model="typeOfEquipmentSelected" ng-options="item.TypeId as item.Name for item in typeOfEquipment" ng-change="selectTypeOfEquipment()"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-info">Гарантийный срок (лет) - {{Warranty}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-success">Эффективный срок (лет)- {{Effective}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-warning">Предельный срок (лет)- {{Limit}}</label>
+                    </div>
+                    <div class="form-group">
+                        <div role="alert" id="LifeTimeAlert">Общий срок использования (лет) - {{Lifetime}}</div>
+                    </div>
+                    
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" ng-click="stepOne(1)" >Дальше</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-2">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <info-equipment></info-equipment>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3>Выбор типа неисправностей </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" ng-repeat="item in equipmentMalfunction">
+                                    <input class="checkbox col-md-2" type="checkbox" checklist-model="checkedItem.equipmentFault" checklist-value="item" />{{item.Name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- button class="btn btn-success nextBtn btn-lg pull-right" type="button" ng-click="stepOne(1)" ng-show="btnStepTwoFinish">Финиш!</button -->
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" ng-click="stepTwo()" >Дальше</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-3">
+            <div class="col-xs-12">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="form-group">
+                        <info-equipment></info-equipment>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3> Стоимость ремонта (руб.) </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="input-group number-spinner">
+                                    <span class="input-group-btn data-dwn">
+                                        <button class="btn btn-default btn-info" data-dir="dwn" ng-mousedown="spinnerDown('down')" ng-mouseup="spinnerDown('up')" ng-disabled="isSpinnerDown"><span class="glyphicon glyphicon-minus"></span></button>
+                                    </span>
+                                    <input type="text" class="form-control text-center" ng-model="Price" min="0" max="{{MaxPrice}}">
+                                    <!-- input type="text" class="form-control text-center"  min="0" max="100" -->
+                                    <span class="input-group-btn data-up">
+                                        <button class="btn btn-default btn-info" data-dir="up" ng-mousedown="spinnerUp('down')" ng-mouseup="spinnerUp('up')" ng-disabled="isSpinnerUp"><span class="glyphicon glyphicon-plus"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                        <button class="btn btn-primary btn-lg pull-right" type="button" ng-click="stepThree()">Дальше</button>
+                
+                </div>
+            </div>
+        </div>
+
+        <div class="row setup-content" id="step-4">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3>Заключение, результат экспертизы.. </h3>
+                    <div class="form-group">
+                        <info-equipment></info-equipment>
+                    </div>
+                    <input type="hidden" ng-model="expertise.EquipmentId" />
+                         <div class="form-group">
+                                <label class="control-label">Результат экспертизы:</label>
+                             <textarea rows="6" class="form-control" style="min-width: 100%" ng-model="expertise.Reason"></textarea>
+                         </div>
+                    <div class="form-group">
+                        <label class="control-label">Заключение:</label>
+                        <textarea rows="6" class="form-control" style="min-width: 100%" ng-model="expertise.Conclusion"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Акт составлен:</label>
+                        <textarea rows="2" class="form-control" style="min-width: 100%" ng-model="expertise.Staff"></textarea>
+                    </div>
+                    <button class="btn btn-success nextBtn btn-lg pull-right" type="button" ng-click="stepFour()" >Финиш!</button>
+                    
+                </div>
+            </div>
+        </div>
+        <!--form -->
+        </div>
+    </div>
+
+        <script>
+            siteRoot = "@Url.Content("~/")";
+            angular.module("Appz", ["checklist-model"])
+                .directive("infoEquipment", function () {
+                    return {
+                        restrict: "E",
+                        template: '<div class="panel panel-default"><div class="panel-heading">{{Name}}</div><div class="panel-body">  <div><span>Инвентарный номер:</span><span>&nbsp;{{InventoryNumber}}</span></div>  <div><span>Серийный номер:</span><span>&nbsp;{{SerialNumber}}</span></div>  <div><span>Цена (руб):</span><span>&nbsp;{{MaxPrice}}</span></div><div><span>Дата ввода:</span><span>&nbsp;{{StartupDate | date: "dd.MM.yyyy"}}</span></div></div></div>'
+                    };
+                })
+            //var Appz = angular.module("Appz", ["checklist-model"]);
+            .controller("Gontroller", function ($scope, $http,$filter,$interval) {
+                //$(document).ready(function () {
+                $scope.showStep2 = false;
+                var equipmentId = 500;
+                var Equipment ;
+                var selectedTypeOfEquipment;
+                var navListItems = $('div.setup-panel div a'),
+                        allWells = $('.setup-content'),
+                        allNextBtn = $('.nextBtn');
+                var typeOfEquipmentSelected;
+                var foundTypeOfEquipment;
+                $scope.checkedItem = {
+                    equipmentFault: []
+                };
+                
+                $scope.expertise = {
+                    //expertItem: []
+                    
+                };
+                var nowDate = new Date();
+                $scope.btnStepTwoNext = true;
+                //$scope.btnStepTwoFinish = true
+                $scope.Price = 0;
+
+                /////// parseDate \\\\\\\\\\\\\\\\
+                function parseDate(value) {
+                    var tmp = value.substring(0, 10).split("-");
+                    return new Date(tmp[0], tmp[1], tmp[2]);
+                    //return { day: tmp[2], month: tmp[1], year: tmp[0] };
+                }
+
+                function datediff(first, second) {
+                    return (second - first) / (1000 * 60 * 60 * 24 * 365);
+                }
+
+
+                //////////////// currentPeriod \\\\\\\\\\\\
+                function  currentPeriod(amountYear, foundItem) {
+                    console.log("amountYear="+amountYear);
+                    if (amountYear<=foundItem.Warranty)
+                    {
+                        $scope.btnStepTwoNext = true;
+                        //$scope.btnStepTwoFinish = false;
+                        //return "warranty";
+                        $("#LifeTimeAlert").removeClass().addClass("alert alert-info");
+                    }
+                    if (foundItem.Warranty<amountYear && amountYear<= +foundItem.Warranty + +foundItem.Effective)
+                    {
+                        $scope.btnStepTwoNext = true;
+                       // $scope.btnStepTwoFinish = false;
+                        $("#LifeTimeAlert").removeClass().addClass("alert alert-success");
+                        //return "effective";
+                    }
+                    if (+foundItem.Warranty + +foundItem.Effective<amountYear && amountYear<= +foundItem.Warranty + +foundItem.Effective + +foundItem.Limit)
+                    {
+                        $scope.btnStepTwoNext = false;
+                       // $scope.btnStepTwoFinish = true;
+                        $('div.setup-panel div a[href="#step-3"]').attr("disabled", "disabled");
+                        $("#LifeTimeAlert").removeClass().addClass("alert alert-warning");
+                        //return "limit";
+                    }
+                    if (+foundItem.Warranty + +foundItem.Effective + +foundItem.Limit<amountYear)
+                    {
+                        $scope.btnStepTwoNext = false;
+                       // $scope.btnStepTwoFinish = true;
+                        $('div.setup-panel div a[href="#step-3"]').attr("disabled", "disabled");
+                        $("#LifeTimeAlert").removeClass().addClass("alert alert-danger");
+                        //return "deadline";
+                    }
+
+                };
+                
+                ////////////// StartUp \\\\\\\\\\\\\\\\\\\\\\\
+                $http.get(siteRoot + "api/Wizard").
+                success(function (data, status, headers, config) {
+                    $scope.typeOfEquipment = data;
+                }).
+                error(function (data, status, headers, config) { alert("Error!"); });
+                
+                /*$scope.typeOfEquipmentSelected = 
+                 function () { return  $http.get(siteRoot + "api/Wizard/" + equipmentId).
+                    then(function (response) {
+                        return response.data.map(function (item) {
+                            return item.TypeId;
+                        });
+                    });
+                }*/
+                $http.get(siteRoot + "api/Wizard/" + equipmentId).
+                    success(function (data, status, headers, config) {
+                        if (data.selectTypeOfEquipment != null) {
+                            console.log("data=" + data.selectTypeOfEquipment.TypeId + " " + data.selectTypeOfEquipment.Name);
+                            selectedTypeOfEquipment = data.selectTypeOfEquipment;
+                        }
+                        Equipment = data.equipment;
+                        $scope.Name = data.equipment.Name;
+                        //$scope.Price = data.equipment.Price;
+                        $scope.StartupDate = data.equipment.StartupDate;
+                        $scope.MaxPrice = data.equipment.Price;
+                        $scope.InventoryNumber = data.equipment.InventoryNumber;
+                        $scope.SerialNumber = data.equipment.SerialNumber;
+                        console.log("data.equipment.Name=" + data.equipment.Name);
+                        console.log("Equipment.Name=" + Equipment.Name);
+                        console.log("Equipment.StartupDate=" + Equipment.StartupDate);
+                        console.log("nowDate=" + $filter("date")(nowDate, "yyyy-MM-dd"));
+                        console.log("Equipment.StartupDate=" + Equipment.StartupDate);
+                        //$scope.Lifetime = $filter("date")(nowDate, "yyyy") - parseDate(Equipment.StartupDate).year;
+                        $scope.Lifetime = datediff(parseDate(Equipment.StartupDate), parseDate($filter("date")(nowDate, "yyyy-MM-dd")));
+                        console.log("$scope.Lifetime=" + $scope.Lifetime);
+                        //$scope.typeOfEquipmentSelected = { TypeId: data.TypeId, Name: data.Name } ;
+                        if (data.selectTypeOfEquipment != null) {
+                            console.log(selectedTypeOfEquipment.Name);
+                            $scope.typeOfEquipmentSelected = selectedTypeOfEquipment.TypeId;
+
+                            console.log("typeOfEquipmentSelected=" + $scope.typeOfEquipmentSelected);
+                            foundTypeOfEquipment = $filter("filter")($scope.typeOfEquipment, function (t) { return t.TypeId === $scope.typeOfEquipmentSelected; })[0];
+                            $scope.Warranty = foundTypeOfEquipment.Warranty;
+                            $scope.Effective = foundTypeOfEquipment.Effective;
+                            $scope.Limit = foundTypeOfEquipment.Limit;
+                            currentPeriod($scope.Lifetime, foundTypeOfEquipment);
+                        }
+                        
+                        
+                }).
+                error(function (data, status, headers, config) { alert("Error!"); });
+                
+                $scope.selectTypeOfEquipment = function () {
+                    console.log(" $scope.typeOfEquipmentSelected=" + $scope.typeOfEquipmentSelected);
+                    foundTypeOfEquipment = $filter("filter")($scope.typeOfEquipment, function (t) { return t.TypeId === $scope.typeOfEquipmentSelected; })[0];
+                    //console.log("foundTypeOfEquipment[0]=" + foundTypeOfEquipment[0].Name);
+                    console.log("foundTypeOfEquipment=" + foundTypeOfEquipment);
+                    console.log("foundTypeOfEquipment.Warranty=" + foundTypeOfEquipment.Warranty);
+                    console.log("foundTypeOfEquipment.Name=" + foundTypeOfEquipment.Name);
+                    console.log("foundTypeOfEquipment.TypeId=" + foundTypeOfEquipment.TypeId);
+                    $scope.Warranty = foundTypeOfEquipment.Warranty;
+                    $scope.Effective = foundTypeOfEquipment.Effective;
+                    $scope.Limit = foundTypeOfEquipment.Limit;
+                    currentPeriod($scope.Lifetime, foundTypeOfEquipment);
+                }
+
+                ///////// navListItems.click \\\\\\\\\\\
+
+                navListItems.click(function (e) {
+                    e.preventDefault();
+                    var $target = $($(this).attr('href')),
+                            $item = $(this);
+
+                    if (!$item.hasClass('disabled')) {
+                        navListItems.removeClass('btn-primary').addClass('btn-default');
+                        $item.addClass('btn-primary');
+                        allWells.hide();
+                        $target.show();
+                        //$target.find('input:eq(0)').focus();
+                    }
+                });
+
+                ///////  StepOne \\\\\\\\\\\\\\\\
+
+                $scope.stepOne = function (curStepBtn) {
+                    //alert($scope.typeOfEquipmentSelected);
+                    typeOfEquipmentSelected = $scope.typeOfEquipmentSelected;
+                    $http.put(siteRoot + "api/Wizard/" + equipmentId + "/" + $scope.typeOfEquipmentSelected).
+                 
+                 error(function (error) {
+                     alert("Error is occured, when trying put the type of equipment !");
+                 });
+                                       
+                    $http.get(siteRoot + "api/Wizard/StepTwo/" + $scope.typeOfEquipmentSelected + "/" + equipmentId).
+                        success(function (data, status) {
+                            $scope.equipmentMalfunction = data.Malfunctions;
+                            console.log(data.selectedMalfunctions);
+                            $scope.checkedItem.equipmentFault = angular.copy(data.selectedMalfunctions);
+                            //console.log($scope.checkedItem.equipmentFault[0].FaultId);
+                            //$scope.checkedItem.equipmentFault.push(1);
+                        }).
+                        error(function (error) {
+                            alert("Ошибка при получении данных!");
+                        });
+
+                    currentPeriod($scope.Lifetime, foundTypeOfEquipment);
+                    nextStepWizard = $('div.setup-panel div a[href="#step-' + curStepBtn + '"]').parent().next().children("a");
+                    nextStepWizard.removeAttr('disabled').trigger('click');
+                    
+                };
+
+               
+            
+                ///////  StepTwo \\\\\\\\\\\\\\\\\\
+
+                $scope.stepTwo = function () {
+                    console.log($scope.checkedItem.equipmentFault); //checkedItem.equipmentFault
+                    $http.put(siteRoot + "api/Wizard/StepTwo/" + equipmentId, $scope.checkedItem.equipmentFault).
+                    success(function (data, statys) {
+                        //alert("Data is saved!");
+                    }
+                    ).
+                    error(function (error) {
+                        alert("Error retrieving data!");
+                    }
+                    );
+                    
+                    $http.get(siteRoot + "api/Wizard/StepThree/" + equipmentId).
+                        success(function (data) {
+                            console.log("data.Price=" + data.Price);
+                            if (data.Price != undefined)
+                            {
+                                $scope.Price = data.Price;
+                            }
+                            else
+                            {
+                                $scope.Price = 0;
+                            }
+                        }
+                        ).
+                        error(function (error) {
+                            alert("Произошла ошибка при получении данных о стоимости ремонта!");
+                        });
+                    if ($scope.btnStepTwoNext) {
+                        nextStepWizard = $('div.setup-panel div a[href="#step-3"]');
+                        nextStepWizard.removeAttr('disabled').trigger('click');
+                    }
+                    else
+                    {
+                        nextStepWizard = $('div.setup-panel div a[href="#step-4"]');
+                        nextStepWizard.removeAttr('disabled').trigger('click');
+                        $http.get(siteRoot + "api/Wizard/StepFour/" + equipmentId).
+                        success(function (data) {
+                            console.log("data.EquipmentId=" + data.EquipmentId);
+                            if (data.EquipmentId != null) {
+                                console.log("data.EquipmentId=" + data.EquipmentId);// + ", data.expertise.EquipmentId=" + data.expertise.EquipmentId);
+                                console.log("data.Staff=" + data.Staff); // + ", data.expertise.Staff=" + data.expertise.Staff);
+                                $scope.expertise = angular.copy(data);
+                                /* $scope.Staff = data.Staff;
+                                 $scope.Reason = data.Reason;
+                                 $scope.Conclusion = data.Conclusion;*/
+                                //console.log("$scope.expertise.EquipmentId=" + $scope.expertise.EquipmentId + ",$scope.expertise.Staff=" + $scope.expertise.Staff);
+                            }
+                            else {
+                                $scope.expertise.EquipmentId = 0;
+                            }
+                        });
+                    }
+                    //$('div.setup-panel div a[href="#step-1"]').parent().next().children("a").attr("disabled", "disabled");
+                
+                };
+
+                /////////////////// StepThree \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+                $scope.stepThree = function () {
+                    console.log("$scope.Price=" + $scope.Price);
+                    $http.put(siteRoot + "api/Wizard/StepThree/" + equipmentId + "/" + $scope.Price).
+                    success(function (data, status) {
+                        console.log("put StepThree is successfull!");
+                    }).error(function (error) {
+                        console.log("put StepThree is FAILED!");
+                    });
+
+                    $http.get(siteRoot + "api/Wizard/StepFour/" + equipmentId).
+                        success(function (data) {
+                            console.log("data.EquipmentId=" + data.EquipmentId);
+                            if (data.EquipmentId != null) {
+                                console.log("data.EquipmentId=" + data.EquipmentId);// + ", data.expertise.EquipmentId=" + data.expertise.EquipmentId);
+                                console.log("data.Staff=" + data.Staff); // + ", data.expertise.Staff=" + data.expertise.Staff);
+                                $scope.expertise = angular.copy(data);
+                                /* $scope.Staff = data.Staff;
+                                 $scope.Reason = data.Reason;
+                                 $scope.Conclusion = data.Conclusion;*/
+                                //console.log("$scope.expertise.EquipmentId=" + $scope.expertise.EquipmentId + ",$scope.expertise.Staff=" + $scope.expertise.Staff);
+                            }
+                            else
+                            {
+                                $scope.expertise.EquipmentId = 0;
+                            }
+                        });
+                    nextStepWizard = $('div.setup-panel div a[href="#step-4"]');
+                    nextStepWizard.removeAttr('disabled').trigger('click');
+                };
+
+                //////////////// StepFour
+
+                $scope.stepFour = function () {
+                    console.log("StepFour - $scope.expertise.EquipmentId=" + $scope.expertise.EquipmentId + ",$scope.expertise.Staff=" + $scope.expertise.Staff);
+                    $http.put(siteRoot + "api/Wizard/PutStepFour/" + equipmentId, $scope.expertise).
+                    success(function () {
+                        alert("Данные успешно сохранены!");
+                    }).
+                    error(function () {
+                        alert("Ошибка при сохранении данных!");
+                    });
+                }
+
+
+                //////////////////// Spinner routines - Down
+
+                $scope.ActionDown = null;
+                $scope.ActionUp = null;
+
+                $scope.spinnerDown = function (mouseAction) {
+                    $scope.isSpinnerDown = false;
+                    console.log("mouseAction=" + mouseAction);
+                    if (mouseAction == "down") {
+                        $scope.ActionDown = $interval(function () {
+                          
+                            if ($scope.Price == undefined || $scope.Price > 0) {
+                                    $scope.Price = parseInt($scope.Price) - 1;
+
+                                }
+                                else {
+                                    $scope.isSpinnerDown = true;
+                                    $interval.cancel($scope.ActionDown);
+                                    
+                                }
+                          
+                        }, 50
+                        );
+                    }
+
+                    if (mouseAction == "up") {
+                        console.log("cancel(action)");
+                        $interval.cancel($scope.ActionDown);
+                        if ($scope.Price < $scope.MaxPrice) {
+                            $scope.isSpinnerUp = false;
+                        }
+                        
+                    }
+
+                };
+                //////////////////// Spinner routines - Up
+
+                $scope.spinnerUp = function (mouseAction) {
+                    $scope.isSpinnerUp = false;
+                    console.log("$scope.Price=" + $scope.Price);
+                    if (mouseAction == "down") {
+                        $scope.ActionUp = $interval(function () {
+                            if ($scope.Price == undefined || $scope.Price == '')
+                            {
+                                $scope.Price = 0;
+                            }
+                            if ( $scope.Price <= $scope.MaxPrice) {
+                                $scope.Price = parseInt($scope.Price) + 1;
+                            }
+                            else {
+                                $scope.isSpinnerUp = true;
+                                $interval.cancel($scope.ActionUp);
+                            }
+                        }, 50);
+                    }
+                    if (mouseAction == "up") {
+                        console.log("cancel(action)");
+                        $interval.cancel($scope.ActionUp);
+                        if ($scope.Price>0)
+                        {
+                            $scope.isSpinnerDown = false;
+                        }
+
+                    }
+                };
+                ///////////////////////////////////////////////
+
+                $('div.setup-panel div a.btn-primary').trigger('click');
+            });
+        </script>
+

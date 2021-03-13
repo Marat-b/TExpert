@@ -1,0 +1,50 @@
+﻿@model TExp.Models.ListOfPrintModel
+@{
+    ViewBag.Title = "PrintList";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<div class="col-md-offset-6 col-md-6">
+    <h3> @Model.Item1 </h3>
+</div>
+<br />
+<br />
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">
+    <h1 style="text-align:center;">Служебная записка</h1>
+    
+</div>
+<br />
+<br />
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-12">&nbsp;</div>
+<div class="col-md-4">Прошу Вас разрешить списание следующего имущества</div>
+
+
+
+<table class="table table-bordered">
+    <tr>
+        <td>№ п/п</td>
+        <td>Наименование ВТ</td>
+        <td>Инв. номер</td>
+        <td>Серийный номер</td>
+        <td>Дата ввода в экспл.</td>
+        <td>Причина списания</td>
+    </tr>
+    @foreach(var item in Model.ActOfExpertise)
+    { 
+    <tr>
+        <td></td>
+        <td>@Html.DisplayFor(i=>item.equipment.Name)</td>
+        <td>@Html.DisplayFor(i=>item.equipment.InventoryNumber)</td>
+        <td>@Html.DisplayFor(i => item.equipment.SerialNumber)</td>
+        <td>@Html.DisplayFor(i=>item.equipment.StartupDate.Value.Year)</td>
+        <td>@Html.DisplayFor(i => item.expertise.Reason) . @Html.DisplayFor(i => item.expertise.Conclusion)</td>
+    </tr>
+    }
+</table>
+<br/>
+<div class="col-md-12"><h4>Ответственный работник ____________________________@Model.Item2</h4></div>
+<br />
+<br />
+<div class="col-md-12"><h4>Руководитель отделения______________________________@Model.Item3</h4></div>

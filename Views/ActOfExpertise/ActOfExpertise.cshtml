@@ -1,0 +1,164 @@
+﻿@model TExp.Models.ActOfExpertiseModel
+@{
+    ViewBag.Title = "Экспертиза";
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+
+    var dateExp="";
+    if (Model.expertise.DateExp != null)
+    {
+        dateExp = Model.expertise.DateExp.ToString().Substring(0, 10);  //..Value.ToString().Substring(0,10); //.ToShortDateString();
+    }
+    else
+    {
+        dateExp = "";}
+}
+
+<div class="page-header">
+    <h2 style="text-align:center;">АКТ № @Model.expertise.NumberExp.ToString()</h2>
+    <h2 style="text-align: center;">ТЕХНИЧЕСКОЙ ЭКСПЕРТИЗЫ</h2>
+    <h3 style="text-align: center;"> к обращению ID @Model.expertise.RequestId</h3>
+</div>
+
+<br/>
+<div style="text-align:right;">Дата: @dateExp</div>
+<br />
+<div>Представителем ООО "Сбербанк-Сервис" произведены работы по технической экспертизе следующего технического средства:</div>
+<br />
+<table class="table table-bordered">
+    <tr>
+        
+        <td>Наименование </td>
+        <td>Инв. номер</td>
+        <td>Серийный номер</td>
+        <td>Дата ввода в экспл.</td>
+        <td>Техническое состояние устройства (описание неисправности)</td>
+    </tr>
+    <tr>
+        
+        <td>@Model.equipment.Name</td>
+        <td>@Model.equipment.InventoryNumber</td>
+        <td>@Model.equipment.SerialNumber</td>
+        <td>@Model.equipment.StartupDate.Value.ToShortDateString()</td>
+        <td>@Model.expertise.Reason</td>
+    </tr>
+</table>
+<br/>
+<table class="table table-bordered">
+    <tr>
+        <td>Заключение:</td>
+        <td>
+             Да
+        </td>
+        <td>Нет
+        </td>
+    </tr>
+    <tr>
+        <td>Оборудование исправно</td>
+        <td>@if (Model.expertise.IsServiceableEquipment == true)
+        {
+            <div>+</div>
+            
+        }
+        </td>
+        <td>@if (Model.expertise.IsServiceableEquipment == false)
+        {
+            <span>+</span>
+        }
+        </td>
+    </tr>
+    <tr>
+        <td>Необходим ремонт по гарантии</td>
+        <td>
+            @if (Model.expertise.IsWarrantyRepair == true)
+                 {
+                     <div>+</div>
+                     
+                 }
+        </td>
+        <td>
+            @if (Model.expertise.IsWarrantyRepair == false)
+            {
+                <span>+</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Возможен ремонт ООО "Сбербанк-Сервис"</td>
+        <td>
+            @if (Model.expertise.IsOrganizationRepair == true)
+            {
+                <div>+</div>
+
+            }
+        </td>
+        <td>
+            @if (Model.expertise.IsOrganizationRepair == false)
+            {
+                <span>+</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Требуется поставка запчастей</td>
+        <td>
+            @if (Model.expertise.IsPartsSupply == true)
+            {
+                <div>+</div>
+
+            }
+        </td>
+        <td>
+            @if (Model.expertise.IsPartsSupply == false)
+            {
+                <span>+</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Пригодно к эксплуатации</td>
+        <td>
+            @if (Model.expertise.IsServiceable == true)
+            {
+                <div>+</div>
+
+            }
+        </td>
+        <td>
+            @if (Model.expertise.IsServiceable == false)
+            {
+                <span>+</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Рекомендуется к списанию
+        </td>
+        <td>
+            @if (Model.expertise.IsForWriteoff == true)
+            {
+                <div>+</div>
+
+            }
+        </td>
+        <td>
+            @if (Model.expertise.IsForWriteoff == false)
+            {
+                <span>+</span>
+            }
+        </td>
+    </tr>
+</table>
+<br />
+<div>Дополнительные рекомендации:</div>
+<div>@Model.expertise.Conclusion</div>
+<br/>
+<div>Представитель ООО "Сбербанк-Сервис":</div>
+<div>@Model.expertise.Staff &nbsp; __________________________</div>
+<div>Управления по сервису Уральского Банка ООО "Сбербанк-Сервис"</div>
+<br/>
+<div>Работы приняты:</div>
+<div>_____________________________________________________________________________</div>
+<br/>
+<div>@Model.expertise.Staff2 &nbsp; ___________________________</div>
+

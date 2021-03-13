@@ -1,0 +1,78 @@
+﻿@using TExp.Classes
+@model TExp.Models.AccountViewModel
+
+@{
+    ViewBag.Title = "Редактирование";
+}
+
+<h2>Редактирование - @Model.UserName</h2>
+@using (Html.BeginForm("Edit","Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <!-- Html.Hidden("Id",Model.Id) -->
+    <div class="form-group">
+        @Html.LabelFor(m => Model.FIO, new { @class = "col-md-2 control-label" })
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => Model.FIO, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => Model.Position, new { @class = "col-md-2 control-label" })
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => Model.Position, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => Model.Position)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.SetPasswordEnabled, new {@class = "col-md-2 control-label"})
+        <div class="col-md-4">
+            @Html.CheckBoxFor(m => Model.SetPasswordEnabled, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => Model.SetPasswordEnabled)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => Model.LockoutEnabled, new { @class = "col-md-2 control-label" })
+        <div class="col-md-4">
+            @Html.CheckBoxFor(m => Model.LockoutEnabled, new { @class = "form-control" })
+            
+        </div>
+    </div>
+
+  <div class="form-group">
+        @Html.Label("Роли", new { @class = "col-md-2 control-label" }) 
+<div class="col-md-4">
+<input type="radio" name="SelectedRole" value="Администратор" @(Model.UserRole=="Администратор" ? "checked=\" checked\"" : "") />
+<label class="control-label" for="Account">Администратор</label>
+    <input type="radio" name="SelectedRole" value="Бухгалтер" @(Model.UserRole == "Бухгалтер" ? "checked=\" checked\"" : "") />
+<label class="control-label" for="Administrator">Бухгалтер</label>
+    <input type="radio" name="SelectedRole" value="Кассир" @(Model.UserRole == "Кассир" ? "checked=\" checked\"" : "") />
+<label class="control-label" for="Kassir">Кассир</label>
+</div>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Привязка POS-терминалов к пользователю</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Сохранить</button>
+            </div>
+            <div class="col-md-offset-2 col-md-4">
+
+                @Html.ActionlinkWithSpanForIcon(" Назад к списку", "List", new { }, new { @class = "btn btn-default" }, "glyphicon glyphicon-backward")
+            </div>
+        </div>
+
+        }

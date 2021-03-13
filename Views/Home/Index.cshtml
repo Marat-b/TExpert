@@ -1,0 +1,176 @@
+﻿@using System.Diagnostics.SymbolStore
+
+@{
+    ViewBag.Title = "Список оборудования";
+    int isReader=1;
+    if (Request.IsAuthenticated)
+    { 
+        if (User.IsInRole("Reader"))
+        {
+            isReader = 1;
+        }
+        else
+        {
+            isReader = 0;
+        }
+    }
+}
+
+<div class="page-header">
+    <h2>Список оборудования</h2>
+</div>
+
+<div class="container">
+    <div ng-controller="TExpContr">
+
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Выберите параметры поиска</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+
+                            <div class="form-group">
+                                <input type="checkbox" class="checkbox col-md-1" ng-model="checkName" id="checkName" />
+                                <label class="checkbox-label col-md-2" for="checkName">Наименование</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" ng-disabled="!checkName" ng-model="modelName"
+                                           uib-typeahead="item as item for item in typeaheadStuff(1,$viewValue)" typeahead-min-length="6" />
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary btn-lg" type="button" ng-click="searchStuff()"><span class="glyphicon glyphicon-search"></span>Искать!</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox" class="checkbox col-md-1" ng-model="checkSer" id="checkSer" />
+                                <label class="checkbox-label col-md-2" for="checkSer">Серийный номер</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" ng-disabled="!checkSer" ng-model="modelSer"
+                                           uib-typeahead="item as item for item in typeaheadStuff(2,$viewValue)" typeahead-min-length="6" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox" class="checkbox col-md-1" ng-model="checkInv" id="checkInv" />
+                                <label class="checkbox-label col-md-2" for="checkInv">Инвентарный номер</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" ng-disabled="!checkInv" ng-model="modelInv"
+                                           uib-typeahead="item as item for item in typeaheadStuff(3,$viewValue)" typeahead-min-length="6" />
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="checkbox" class="checkbox col-md-1" ng-model="checkMol" id="checkMol" />
+                                <label class="checkbox-label col-md-2" for="checkMol">М.О.Л.</label>
+
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-disabled="!checkMol" ng-model="modelMol"
+                                           uib-typeahead="item as item for item in typeaheadStuff(4,$viewValue)" typeahead-min-length="6" />
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+@if (Request.IsAuthenticated)
+{
+    if (!User.IsInRole("Reader"))
+    {
+        <div class="col-md-2">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <button class="btn btn-success" ng-click="newItem()" uib-tooltip="Новый элемент оборудования" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-plus"></i></button>
+                </div>
+
+            </form>
+        </div>
+    }
+}
+
+    </div>
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm"
+                                boundary-links="true" rotate="false" items-per-page="itemsPerPage"
+                                previous-text="Предыдущий" next-text="Следующий" first-text="Первый" last-text="Последний"></uib-pagination>
+            </div>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+
+                    <th ng-click="sorting('Name','isSorted1')"><span ng-show="isSorted1" class="text text-info"> <i class="glyphicon glyphicon-arrow-down"></i></span>Наименование</th>
+                    <th ng-click="sorting('SerialNumber','isSorted2')"><span ng-show="isSorted2" class="text text-info"> <i class="glyphicon glyphicon-arrow-down"></i></span>Серийный номер</th>
+                    <th ng-click="sorting('InventoryNumber','isSorted3')"><span ng-show="isSorted3" class="text text-info"> <i class="glyphicon glyphicon-arrow-down"></i></span>Инвентарный номер</th>
+                    <th ng-click="sorting('Price','isSorted4')"><span ng-show="isSorted4" class="text text-info"> <i class="glyphicon glyphicon-arrow-down"></i></span>Цена</th>
+                    <th ng-click="sorting('StartupDate','isSorted5')"><span ng-show="isSorted5" class="text text-info"> <i class="glyphicon glyphicon-arrow-down"></i></span>Дата ввода</th>
+                    <th ng-click="sorting('MOL','isSorted6')"><span ng-show="isSorted6" class="text text-info"> <i class="glyphicon glyphicon-arrow-down"></i></span>МОЛ</th>
+@if (Request.IsAuthenticated)
+{
+    if (!User.IsInRole("Reader"))
+    {
+        <th>Редактировать</th>
+    }
+}
+    <th>Экспертиза</th>
+                    
+@if (Request.IsAuthenticated)
+{
+    if (!User.IsInRole("Reader"))
+    {
+
+        <th>Списание</th>
+    }
+}
+    </tr>
+            </thead>
+            <tr ng-repeat="item in itemEquipments">
+
+                <td>{{item.Name}}</td>
+                <td>{{item.SerialNumber}}</td>
+                <td>{{item.InventoryNumber}}</td>
+                <td>{{item.Price}}</td>
+                <td>{{item.StartupDate | date: 'dd.MM.yyyy'}}</td>
+                <td>{{item.MOL}}</td>
+@if (Request.IsAuthenticated)
+{
+    if (!User.IsInRole("Reader"))
+    {
+        <td><button class="btn btn-info" ng-click="edit(item.EquipmentId)" uib-tooltip="Редактирование элемента оборудования" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-edit"></i></button></td>
+    }
+}
+    <td><button class="btn" ng-class="{'btn-success':item.hasExpertise!=0}" ng-click="listExpertises(item.EquipmentId,@isReader)" uib-tooltip="Список актов экспертиз оборудования" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-list"></i></button></td>
+
+@if (Request.IsAuthenticated)
+{
+    if (!User.IsInRole("Reader"))
+    {
+        <td>
+            <button class="btn" ng-class="{'btn-warning':item.Decommission}" ng-click="decommission(item.EquipmentId)"
+                    uib-tooltip="Установка признака о списании элемента оборудования" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-remove"></i></button>
+        </td>
+    }
+}
+    
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+   
+    @Scripts.Render("~/bundles/texp-index")
+}

@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Типы сообщений";
+}
+
+<div>
+    <div ng-controller="Gontroller">
+        <h2>Типы сообщений</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="hidden" ng-model="message.MessageId" name="MessageId"/>
+                    <label class="text-info popovers" rel="popover" data-placement="top" data-trigger="hover" data-content="Это период от момента окончания гарантийного срока эксплуатации до истечения срока, указанного как эффективный срок эксплуатации.">Эффективный срок</label>
+                    <textarea rows="5" class="form-control" style="min-width: 100%" ng-model="message.Effective" placeholder='Сообщение для оборудования находящегося в "эффективном" сроке обслуживания'></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-info popovers" rel="popover" data-placement="top" data-trigger="hover" data-content="Это период с момента окончания эффективного срока эксплуатации, до момента истечения срока, указанного как предельный срок эксплуатации.">Предельный срок</label>
+                    <textarea rows="5" class="form-control" style="min-width: 100%" ng-model="message.Limit" placeholder='Сообщение для оборудования находящегося в "предельном" сроке обслуживания'></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-info popovers" rel="popover" data-placement="top" data-trigger="hover" data-content="Сообщение для оборудования находящегося свыше  предельного срока обслуживания.">Превышение предельного срока</label>
+                    <textarea rows="5" class="form-control" style="min-width: 100%" ng-model="message.Deadline" placeholder='Сообщение для оборудования находящегося свыше "предельного" срока обслуживания'></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-info popovers" rel="popover" data-placement="top" data-trigger="hover" data-content="Сообщение для оборудования,стоимость ремонта которого, выше определенного значения">Превышение суммы ремонта</label>
+                    <textarea rows="5" class="form-control" style="min-width: 100%" ng-model="message.OverCostRepair" placeholder='Сообщение для оборудования,стоимость ремонта которого, выше определенного значения'></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="text-info popovers" rel="popover" data-placement="top" data-trigger="hover" data-content="Предельная стоимость ремонта оборудования (в %), выше которого, оборудование подлежит списанию.">Стоимость ремонта (%)</label>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn" ng-mousedown="spinnerDown('down')" ng-mouseup="spinnerDown('up')" ng-disabled="isSpinnerDown"><span class="glyphicon glyphicon-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center" ng-model="message.CostRepair" min="0" max="100">
+                        
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up" ng-mousedown="spinnerUp('down')" ng-mouseup="spinnerUp('up')" ng-disabled="isSpinnerUp"><span class="glyphicon glyphicon-plus"></span></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="text-info popovers" rel="popover" data-placement="top" data-trigger="hover" data-content="Последний номер акта, который будет вставляться в акт экспертизы">Последний номер акта</label>
+                    <input  class="form-control"  ng-model="message.LastNumber" ></input>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                
+                    <button class="btn btn-primary" type="button" ng-click="btnMessage()">Сохранить</button>
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+ 
+    @Scripts.Render("~/bundles/texp-message")
+}

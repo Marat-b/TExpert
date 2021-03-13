@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title </title>
+    <base href="@Url.Content("~/")"/>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/flow")
+    @Scripts.Render("~/bundles/server-validate")
+
+</head>
+<body ng-app="TExpApp">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("TExpert", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            
+            <div class="navbar-collapse collapse navbar-inverse">
+                <ul class="nav navbar-nav ">
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Administrator"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Настройки<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Тип оборудования", "TypeOfEquipment", "Home")</li>
+                                    <li>@Html.ActionLink("Тип неисправности", "Malfunction", "Home")</li>
+                                    <li>@Html.ActionLink("Сообщение", "Message", "Home")</li>
+
+                                </ul>
+
+                            </li>
+                        }
+                    }
+
+                    <li>@Html.ActionLink("Документы", "Document", "Home")</li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Пользователи<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Request.IsAuthenticated)
+                            {
+                                if (User.IsInRole("Administrator"))
+                                {
+                                    <li>@Html.ActionLink("Пользователи", "List", "Account")</li>
+                                }
+                                else
+                                {
+                                    <li>@Html.ActionLink("Сменить пароль", "ChangePassword", "Account")</li>
+                                }
+                            }
+
+                            <li>@Html.ActionLink("Выход", "LogOut", "Account")</li>
+
+                        </ul>
+
+                    </li>
+
+
+
+
+                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
+                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2015 - @DateTime.Now.Year  TechExpert</p>
+        </footer>
+    </div>
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>
