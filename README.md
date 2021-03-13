@@ -1,2 +1,2 @@
 # TExpert
-TExpert - инвентаризация и учёт оборудования, составление отчётов об использовании.
+TExpert - equipment inventory and record keeping, reporting on usage.
