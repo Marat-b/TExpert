@@ -1,0 +1,853 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TExpModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="t_CostOfRepair">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+          </Key>
+          <Property Name="EquipmentId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_Equipment">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+          </Key>
+          <Property Name="EquipmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialAccount" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="InventoryNumber" Type="varchar" MaxLength="50" />
+          <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="MOL" Type="varchar" MaxLength="50" />
+          <Property Name="StartupDate" Type="date" />
+          <Property Name="Decommission" Type="bit" Nullable="false" />
+          <Property Name="DateOfDecommission" Type="date" />
+        </EntityType>
+        <EntityType Name="t_EquipmentExpertise">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+            <PropertyRef Name="ExpertiseId" />
+          </Key>
+          <Property Name="EquipmentId" Type="int" Nullable="false" />
+          <Property Name="ExpertiseId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_EquipmentMalfunction">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+            <PropertyRef Name="FaultId" />
+          </Key>
+          <Property Name="EquipmentId" Type="int" Nullable="false" />
+          <Property Name="FaultId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_EquipmentTypeOfEquipment">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="EquipmentId" Type="int" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_Expertise">
+          <Key>
+            <PropertyRef Name="ExpertiseId" />
+          </Key>
+          <Property Name="ExpertiseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EquipmentId" Type="int" Nullable="false" />
+          <Property Name="Staff" Type="nvarchar(max)" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="Conclusion" Type="nvarchar(max)" />
+          <Property Name="NumberExp" Type="int" />
+          <Property Name="DateExp" Type="datetimeoffset" Precision="7" />
+          <Property Name="Staff2" Type="nvarchar(max)" />
+          <Property Name="RequestId" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsServiceableEquipment" Type="bit" />
+          <Property Name="IsPartsSupply" Type="bit" />
+          <Property Name="IsServiceable" Type="bit" />
+          <Property Name="IsForWriteoff" Type="bit" />
+          <Property Name="IsWarrantyRepair" Type="bit" />
+          <Property Name="IsOrganizationRepair" Type="bit" />
+        </EntityType>
+        <EntityType Name="t_ListForPrint">
+          <Key>
+            <PropertyRef Name="ListId" />
+          </Key>
+          <Property Name="ListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Item1" Type="nvarchar(max)" />
+          <Property Name="Item2" Type="nvarchar(max)" />
+          <Property Name="Item3" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="t_Malfunction">
+          <Key>
+            <PropertyRef Name="FaultId" />
+          </Key>
+          <Property Name="FaultId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Effective" Type="nvarchar(max)" />
+          <Property Name="Limit" Type="nvarchar(max)" />
+          <Property Name="Deadline" Type="nvarchar(max)" />
+          <Property Name="CostRepair" Type="int" Nullable="false" />
+          <Property Name="OverCostRepair" Type="nvarchar(max)" />
+          <Property Name="LastNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="t_TypeOfEquipment">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Warranty" Type="int" Nullable="false" />
+          <Property Name="Effective" Type="int" Nullable="false" />
+          <Property Name="Limit" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_TypeOfEquipmentMalfunction">
+          <Key>
+            <PropertyRef Name="TypeId" />
+            <PropertyRef Name="FaultId" />
+          </Key>
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="FaultId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_UsedPassword">
+          <Key>
+            <PropertyRef Name="UsedPasswordId" />
+          </Key>
+          <Property Name="UsedPasswordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="t_User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="50" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="100" />
+          <Property Name="Sign" Type="varbinary(max)" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
+          <Property Name="SetPasswordEndDate" Type="datetimeoffset" Precision="7" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDate" Type="datetimeoffset" Precision="7" />
+          <Property Name="SetPasswordEnabled" Type="bit" Nullable="false" />
+          <Property Name="SigninEndDate" Type="datetimeoffset" Precision="7" />
+        </EntityType>
+        <EntityType Name="t_UserExpertise">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="ExpertiseId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ExpertiseId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_UserRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_UserUserRole">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_t_CostOfRepair_t_Equipment">
+          <End Role="t_Equipment" Type="Self.t_Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_CostOfRepair" Type="Self.t_CostOfRepair" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="t_Equipment">
+              <PropertyRef Name="EquipmentId" />
+            </Principal>
+            <Dependent Role="t_CostOfRepair">
+              <PropertyRef Name="EquipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_EquipmentExpertise_t_Equipment">
+          <End Role="t_Equipment" Type="Self.t_Equipment" Multiplicity="1" />
+          <End Role="t_EquipmentExpertise" Type="Self.t_EquipmentExpertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Equipment">
+              <PropertyRef Name="EquipmentId" />
+            </Principal>
+            <Dependent Role="t_EquipmentExpertise">
+              <PropertyRef Name="EquipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_EquipmentExpertise_t_Expertise">
+          <End Role="t_Expertise" Type="Self.t_Expertise" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_EquipmentExpertise" Type="Self.t_EquipmentExpertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Expertise">
+              <PropertyRef Name="ExpertiseId" />
+            </Principal>
+            <Dependent Role="t_EquipmentExpertise">
+              <PropertyRef Name="ExpertiseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_EquipmentMalfunction_t_EquipmentMalfunction">
+          <End Role="t_Equipment" Type="Self.t_Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_EquipmentMalfunction" Type="Self.t_EquipmentMalfunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Equipment">
+              <PropertyRef Name="EquipmentId" />
+            </Principal>
+            <Dependent Role="t_EquipmentMalfunction">
+              <PropertyRef Name="EquipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_EquipmentMalfunction_t_Malfunction">
+          <End Role="t_Malfunction" Type="Self.t_Malfunction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_EquipmentMalfunction" Type="Self.t_EquipmentMalfunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Malfunction">
+              <PropertyRef Name="FaultId" />
+            </Principal>
+            <Dependent Role="t_EquipmentMalfunction">
+              <PropertyRef Name="FaultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_EquipmentTypeOfEquipment_t_Equipment">
+          <End Role="t_Equipment" Type="Self.t_Equipment" Multiplicity="1" />
+          <End Role="t_EquipmentTypeOfEquipment" Type="Self.t_EquipmentTypeOfEquipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Equipment">
+              <PropertyRef Name="EquipmentId" />
+            </Principal>
+            <Dependent Role="t_EquipmentTypeOfEquipment">
+              <PropertyRef Name="EquipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_EquipmentTypeOfEquipment_t_TypeOfEquipment">
+          <End Role="t_TypeOfEquipment" Type="Self.t_TypeOfEquipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_EquipmentTypeOfEquipment" Type="Self.t_EquipmentTypeOfEquipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_TypeOfEquipment">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="t_EquipmentTypeOfEquipment">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_TypeOfEquipmentMalfunction_t_Malfunction">
+          <End Role="t_Malfunction" Type="Self.t_Malfunction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_TypeOfEquipmentMalfunction" Type="Self.t_TypeOfEquipmentMalfunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Malfunction">
+              <PropertyRef Name="FaultId" />
+            </Principal>
+            <Dependent Role="t_TypeOfEquipmentMalfunction">
+              <PropertyRef Name="FaultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_TypeOfEquipmentMalfunction_t_TypeOfEquipment">
+          <End Role="t_TypeOfEquipment" Type="Self.t_TypeOfEquipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_TypeOfEquipmentMalfunction" Type="Self.t_TypeOfEquipmentMalfunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_TypeOfEquipment">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="t_TypeOfEquipmentMalfunction">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_UsedPassword_t_User">
+          <End Role="t_User" Type="Self.t_User" Multiplicity="1" />
+          <End Role="t_UsedPassword" Type="Self.t_UsedPassword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="t_UsedPassword">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_UserExpertise_t_Expertise">
+          <End Role="t_Expertise" Type="Self.t_Expertise" Multiplicity="1" />
+          <End Role="t_UserExpertise" Type="Self.t_UserExpertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Expertise">
+              <PropertyRef Name="ExpertiseId" />
+            </Principal>
+            <Dependent Role="t_UserExpertise">
+              <PropertyRef Name="ExpertiseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_t_UserExpertise_t_User">
+          <End Role="t_User" Type="Self.t_User" Multiplicity="1" />
+          <End Role="t_UserExpertise" Type="Self.t_UserExpertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="t_UserExpertise">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserUserRole_User">
+          <End Role="t_User" Type="Self.t_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_UserUserRole" Type="Self.t_UserUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="t_UserUserRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserUserRole_UserRole">
+          <End Role="t_UserRole" Type="Self.t_UserRole" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="t_UserUserRole" Type="Self.t_UserUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_UserRole">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="t_UserUserRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TExpModelStoreContainer">
+          <EntitySet Name="t_CostOfRepair" EntityType="Self.t_CostOfRepair" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_Equipment" EntityType="Self.t_Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_EquipmentExpertise" EntityType="Self.t_EquipmentExpertise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_EquipmentMalfunction" EntityType="Self.t_EquipmentMalfunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_EquipmentTypeOfEquipment" EntityType="Self.t_EquipmentTypeOfEquipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_Expertise" EntityType="Self.t_Expertise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_ListForPrint" EntityType="Self.t_ListForPrint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_Malfunction" EntityType="Self.t_Malfunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_Message" EntityType="Self.t_Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_TypeOfEquipment" EntityType="Self.t_TypeOfEquipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_TypeOfEquipmentMalfunction" EntityType="Self.t_TypeOfEquipmentMalfunction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_UsedPassword" EntityType="Self.t_UsedPassword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_User" EntityType="Self.t_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_UserExpertise" EntityType="Self.t_UserExpertise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_UserRole" EntityType="Self.t_UserRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_UserUserRole" EntityType="Self.t_UserUserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_t_CostOfRepair_t_Equipment" Association="Self.FK_t_CostOfRepair_t_Equipment">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_CostOfRepair" EntitySet="t_CostOfRepair" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_EquipmentExpertise_t_Equipment" Association="Self.FK_t_EquipmentExpertise_t_Equipment">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_EquipmentExpertise" EntitySet="t_EquipmentExpertise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_EquipmentExpertise_t_Expertise" Association="Self.FK_t_EquipmentExpertise_t_Expertise">
+            <End Role="t_Expertise" EntitySet="t_Expertise" />
+            <End Role="t_EquipmentExpertise" EntitySet="t_EquipmentExpertise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_EquipmentMalfunction_t_EquipmentMalfunction" Association="Self.FK_t_EquipmentMalfunction_t_EquipmentMalfunction">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_EquipmentMalfunction" EntitySet="t_EquipmentMalfunction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_EquipmentMalfunction_t_Malfunction" Association="Self.FK_t_EquipmentMalfunction_t_Malfunction">
+            <End Role="t_Malfunction" EntitySet="t_Malfunction" />
+            <End Role="t_EquipmentMalfunction" EntitySet="t_EquipmentMalfunction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_EquipmentTypeOfEquipment_t_Equipment" Association="Self.FK_t_EquipmentTypeOfEquipment_t_Equipment">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_EquipmentTypeOfEquipment" EntitySet="t_EquipmentTypeOfEquipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_EquipmentTypeOfEquipment_t_TypeOfEquipment" Association="Self.FK_t_EquipmentTypeOfEquipment_t_TypeOfEquipment">
+            <End Role="t_TypeOfEquipment" EntitySet="t_TypeOfEquipment" />
+            <End Role="t_EquipmentTypeOfEquipment" EntitySet="t_EquipmentTypeOfEquipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_TypeOfEquipmentMalfunction_t_Malfunction" Association="Self.FK_t_TypeOfEquipmentMalfunction_t_Malfunction">
+            <End Role="t_Malfunction" EntitySet="t_Malfunction" />
+            <End Role="t_TypeOfEquipmentMalfunction" EntitySet="t_TypeOfEquipmentMalfunction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_TypeOfEquipmentMalfunction_t_TypeOfEquipment" Association="Self.FK_t_TypeOfEquipmentMalfunction_t_TypeOfEquipment">
+            <End Role="t_TypeOfEquipment" EntitySet="t_TypeOfEquipment" />
+            <End Role="t_TypeOfEquipmentMalfunction" EntitySet="t_TypeOfEquipmentMalfunction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_UsedPassword_t_User" Association="Self.FK_t_UsedPassword_t_User">
+            <End Role="t_User" EntitySet="t_User" />
+            <End Role="t_UsedPassword" EntitySet="t_UsedPassword" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_UserExpertise_t_Expertise" Association="Self.FK_t_UserExpertise_t_Expertise">
+            <End Role="t_Expertise" EntitySet="t_Expertise" />
+            <End Role="t_UserExpertise" EntitySet="t_UserExpertise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_t_UserExpertise_t_User" Association="Self.FK_t_UserExpertise_t_User">
+            <End Role="t_User" EntitySet="t_User" />
+            <End Role="t_UserExpertise" EntitySet="t_UserExpertise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserUserRole_User" Association="Self.FK_UserUserRole_User">
+            <End Role="t_User" EntitySet="t_User" />
+            <End Role="t_UserUserRole" EntitySet="t_UserUserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserUserRole_UserRole" Association="Self.FK_UserUserRole_UserRole">
+            <End Role="t_UserRole" EntitySet="t_UserRole" />
+            <End Role="t_UserUserRole" EntitySet="t_UserUserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TExpModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="t_Equipment">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+          </Key>
+          <Property Name="EquipmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterialAccount" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="InventoryNumber" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SerialNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="StartupDate" Type="DateTime" Precision="0" />
+          <Property Name="Decommission" Type="Boolean" Nullable="false" />
+          <Property Name="DateOfDecommission" Type="DateTime" Precision="0" />
+          <Property Name="MOL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_CostOfRepair" Relationship="TExpModel.FK_t_CostOfRepair_t_Equipment" FromRole="t_Equipment" ToRole="t_CostOfRepair" />
+          <NavigationProperty Name="t_Malfunction" Relationship="TExpModel.t_EquipmentMalfunction" FromRole="t_Equipment" ToRole="t_Malfunction" />
+          <NavigationProperty Name="t_TypeOfEquipment" Relationship="TExpModel.t_EquipmentTypeOfEquipment" FromRole="t_Equipment" ToRole="t_TypeOfEquipment" />
+          <NavigationProperty Name="t_Expertise" Relationship="TExpModel.t_EquipmentExpertise" FromRole="t_Equipment" ToRole="t_Expertise" />
+        </EntityType>
+        <EntityContainer Name="TExpEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="t_Equipment" EntityType="Self.t_Equipment" />
+          <EntitySet Name="t_CostOfRepair" EntityType="TExpModel.t_CostOfRepair" />
+          <EntitySet Name="t_Expertise" EntityType="TExpModel.t_Expertise" />
+          <EntitySet Name="t_Malfunction" EntityType="TExpModel.t_Malfunction" />
+          <EntitySet Name="t_Message" EntityType="TExpModel.t_Message" />
+          <EntitySet Name="t_TypeOfEquipment" EntityType="TExpModel.t_TypeOfEquipment" />
+          <AssociationSet Name="FK_t_CostOfRepair_t_Equipment" Association="TExpModel.FK_t_CostOfRepair_t_Equipment">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_CostOfRepair" EntitySet="t_CostOfRepair" />
+          </AssociationSet>
+          <AssociationSet Name="t_EquipmentMalfunction" Association="TExpModel.t_EquipmentMalfunction">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_Malfunction" EntitySet="t_Malfunction" />
+          </AssociationSet>
+          <AssociationSet Name="t_EquipmentTypeOfEquipment" Association="TExpModel.t_EquipmentTypeOfEquipment">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_TypeOfEquipment" EntitySet="t_TypeOfEquipment" />
+          </AssociationSet>
+          <AssociationSet Name="t_TypeOfEquipmentMalfunction" Association="TExpModel.t_TypeOfEquipmentMalfunction">
+            <End Role="t_Malfunction" EntitySet="t_Malfunction" />
+            <End Role="t_TypeOfEquipment" EntitySet="t_TypeOfEquipment" />
+          </AssociationSet>
+          <EntitySet Name="t_ListForPrint" EntityType="TExpModel.t_ListForPrint" />
+          <EntitySet Name="t_User" EntityType="TExpModel.t_User" />
+          <EntitySet Name="t_UserRole" EntityType="TExpModel.t_UserRole" />
+          <AssociationSet Name="t_UserUserRole" Association="TExpModel.t_UserUserRole">
+            <End Role="t_User" EntitySet="t_User" />
+            <End Role="t_UserRole" EntitySet="t_UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="t_UserExpertise" Association="TExpModel.t_UserExpertise">
+            <End Role="t_Expertise" EntitySet="t_Expertise" />
+            <End Role="t_User" EntitySet="t_User" />
+          </AssociationSet>
+          <AssociationSet Name="t_EquipmentExpertise" Association="TExpModel.t_EquipmentExpertise">
+            <End Role="t_Equipment" EntitySet="t_Equipment" />
+            <End Role="t_Expertise" EntitySet="t_Expertise" />
+          </AssociationSet>
+          <EntitySet Name="t_UsedPassword" EntityType="TExpModel.t_UsedPassword" />
+          <AssociationSet Name="FK_t_UsedPassword_t_User" Association="TExpModel.FK_t_UsedPassword_t_User">
+            <End Role="t_User" EntitySet="t_User" />
+            <End Role="t_UsedPassword" EntitySet="t_UsedPassword" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="t_CostOfRepair">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+          </Key>
+          <Property Name="EquipmentId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="t_Equipment" Relationship="TExpModel.FK_t_CostOfRepair_t_Equipment" FromRole="t_CostOfRepair" ToRole="t_Equipment" />
+        </EntityType>
+        <EntityType Name="t_Expertise">
+          <Key>
+            <PropertyRef Name="ExpertiseId" />
+          </Key>
+          <Property Name="EquipmentId" Type="Int32" Nullable="false" />
+          <Property Name="Staff" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Conclusion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumberExp" Type="Int32" />
+          <Property Name="DateExp" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Staff2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RequestId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsServiceableEquipment" Type="Boolean" />
+          <Property Name="IsPartsSupply" Type="Boolean" />
+          <Property Name="IsServiceable" Type="Boolean" />
+          <Property Name="IsForWriteoff" Type="Boolean" />
+          <Property Name="IsWarrantyRepair" Type="Boolean" />
+          <Property Name="IsOrganizationRepair" Type="Boolean" />
+          <Property Name="ExpertiseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="t_User" Relationship="TExpModel.t_UserExpertise" FromRole="t_Expertise" ToRole="t_User" />
+          <NavigationProperty Name="t_Equipment" Relationship="TExpModel.t_EquipmentExpertise" FromRole="t_Expertise" ToRole="t_Equipment" />
+        </EntityType>
+        <EntityType Name="t_Malfunction">
+          <Key>
+            <PropertyRef Name="FaultId" />
+          </Key>
+          <Property Name="FaultId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="t_Equipment" Relationship="TExpModel.t_EquipmentMalfunction" FromRole="t_Malfunction" ToRole="t_Equipment" />
+          <NavigationProperty Name="t_TypeOfEquipment" Relationship="TExpModel.t_TypeOfEquipmentMalfunction" FromRole="t_Malfunction" ToRole="t_TypeOfEquipment" />
+        </EntityType>
+        <EntityType Name="t_Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Limit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Effective" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Deadline" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CostRepair" Type="Int32" Nullable="false" />
+          <Property Name="OverCostRepair" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastNumber" Type="Int32" />
+        </EntityType>
+        <EntityType Name="t_TypeOfEquipment">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Warranty" Type="Int32" Nullable="false" />
+          <Property Name="Effective" Type="Int32" Nullable="false" />
+          <Property Name="Limit" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="t_Equipment" Relationship="TExpModel.t_EquipmentTypeOfEquipment" FromRole="t_TypeOfEquipment" ToRole="t_Equipment" />
+          <NavigationProperty Name="t_Malfunction" Relationship="TExpModel.t_TypeOfEquipmentMalfunction" FromRole="t_TypeOfEquipment" ToRole="t_Malfunction" />
+        </EntityType>
+        <Association Name="FK_t_CostOfRepair_t_Equipment">
+          <End Type="TExpModel.t_Equipment" Role="t_Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TExpModel.t_CostOfRepair" Role="t_CostOfRepair" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="t_Equipment">
+              <PropertyRef Name="EquipmentId" />
+            </Principal>
+            <Dependent Role="t_CostOfRepair">
+              <PropertyRef Name="EquipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="t_EquipmentMalfunction">
+          <End Type="TExpModel.t_Equipment" Role="t_Equipment" Multiplicity="*" />
+          <End Type="TExpModel.t_Malfunction" Role="t_Malfunction" Multiplicity="*" />
+        </Association>
+        <Association Name="t_EquipmentTypeOfEquipment">
+          <End Type="TExpModel.t_Equipment" Role="t_Equipment" Multiplicity="*" />
+          <End Type="TExpModel.t_TypeOfEquipment" Role="t_TypeOfEquipment" Multiplicity="*" />
+        </Association>
+        <Association Name="t_TypeOfEquipmentMalfunction">
+          <End Type="TExpModel.t_Malfunction" Role="t_Malfunction" Multiplicity="*" />
+          <End Type="TExpModel.t_TypeOfEquipment" Role="t_TypeOfEquipment" Multiplicity="*" />
+        </Association>
+        <EntityType Name="t_ListForPrint">
+          <Key>
+            <PropertyRef Name="ListId" />
+          </Key>
+          <Property Name="ListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Item1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Item2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Item3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Sign" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SetPasswordEndDate" Type="DateTimeOffset" Precision="7" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDate" Type="DateTimeOffset" Precision="7" />
+          <Property Name="SetPasswordEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="SigninEndDate" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="t_UserRole" Relationship="TExpModel.t_UserUserRole" FromRole="t_User" ToRole="t_UserRole" />
+          <NavigationProperty Name="t_Expertise" Relationship="TExpModel.t_UserExpertise" FromRole="t_User" ToRole="t_Expertise" />
+          <NavigationProperty Name="t_UsedPassword" Relationship="TExpModel.FK_t_UsedPassword_t_User" FromRole="t_User" ToRole="t_UsedPassword" />
+        </EntityType>
+        <EntityType Name="t_UserRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="t_User" Relationship="TExpModel.t_UserUserRole" FromRole="t_UserRole" ToRole="t_User" />
+        </EntityType>
+        <Association Name="t_UserUserRole">
+          <End Type="TExpModel.t_User" Role="t_User" Multiplicity="*" />
+          <End Type="TExpModel.t_UserRole" Role="t_UserRole" Multiplicity="*" />
+        </Association>
+        <Association Name="t_UserExpertise">
+          <End Type="TExpModel.t_Expertise" Role="t_Expertise" Multiplicity="*" />
+          <End Type="TExpModel.t_User" Role="t_User" Multiplicity="*" />
+        </Association>
+        <Association Name="t_EquipmentExpertise">
+          <End Type="TExpModel.t_Equipment" Role="t_Equipment" Multiplicity="*" />
+          <End Type="TExpModel.t_Expertise" Role="t_Expertise" Multiplicity="*" />
+        </Association>
+        <EntityType Name="t_UsedPassword">
+          <Key>
+            <PropertyRef Name="UsedPasswordId" />
+          </Key>
+          <Property Name="UsedPasswordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="t_User" Relationship="TExpModel.FK_t_UsedPassword_t_User" FromRole="t_UsedPassword" ToRole="t_User" />
+        </EntityType>
+        <Association Name="FK_t_UsedPassword_t_User">
+          <End Type="TExpModel.t_User" Role="t_User" Multiplicity="1" />
+          <End Type="TExpModel.t_UsedPassword" Role="t_UsedPassword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="t_UsedPassword">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TExpModelStoreContainer" CdmEntityContainer="TExpEntities">
+          <EntitySetMapping Name="t_Equipment">
+            <EntityTypeMapping TypeName="TExpModel.t_Equipment">
+              <MappingFragment StoreEntitySet="t_Equipment">
+                <ScalarProperty Name="MOL" ColumnName="MOL" />
+                <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+                <ScalarProperty Name="MaterialAccount" ColumnName="MaterialAccount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InventoryNumber" ColumnName="InventoryNumber" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="StartupDate" ColumnName="StartupDate" />
+                <ScalarProperty Name="Decommission" ColumnName="Decommission" />
+                <ScalarProperty Name="DateOfDecommission" ColumnName="DateOfDecommission" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_CostOfRepair">
+            <EntityTypeMapping TypeName="TExpModel.t_CostOfRepair">
+              <MappingFragment StoreEntitySet="t_CostOfRepair">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_Expertise">
+            <EntityTypeMapping TypeName="TExpModel.t_Expertise">
+              <MappingFragment StoreEntitySet="t_Expertise">
+                <ScalarProperty Name="ExpertiseId" ColumnName="ExpertiseId" />
+                <ScalarProperty Name="IsOrganizationRepair" ColumnName="IsOrganizationRepair" />
+                <ScalarProperty Name="IsWarrantyRepair" ColumnName="IsWarrantyRepair" />
+                <ScalarProperty Name="IsForWriteoff" ColumnName="IsForWriteoff" />
+                <ScalarProperty Name="IsServiceable" ColumnName="IsServiceable" />
+                <ScalarProperty Name="IsPartsSupply" ColumnName="IsPartsSupply" />
+                <ScalarProperty Name="IsServiceableEquipment" ColumnName="IsServiceableEquipment" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="Staff2" ColumnName="Staff2" />
+                <ScalarProperty Name="DateExp" ColumnName="DateExp" />
+                <ScalarProperty Name="NumberExp" ColumnName="NumberExp" />
+                <ScalarProperty Name="Conclusion" ColumnName="Conclusion" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Staff" ColumnName="Staff" />
+                <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_Malfunction">
+            <EntityTypeMapping TypeName="TExpModel.t_Malfunction">
+              <MappingFragment StoreEntitySet="t_Malfunction">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FaultId" ColumnName="FaultId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_Message">
+            <EntityTypeMapping TypeName="TExpModel.t_Message">
+              <MappingFragment StoreEntitySet="t_Message">
+                <ScalarProperty Name="LastNumber" ColumnName="LastNumber" />
+                <ScalarProperty Name="OverCostRepair" ColumnName="OverCostRepair" />
+                <ScalarProperty Name="CostRepair" ColumnName="CostRepair" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="Effective" ColumnName="Effective" />
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_TypeOfEquipment">
+            <EntityTypeMapping TypeName="TExpModel.t_TypeOfEquipment">
+              <MappingFragment StoreEntitySet="t_TypeOfEquipment">
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="Effective" ColumnName="Effective" />
+                <ScalarProperty Name="Warranty" ColumnName="Warranty" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="t_EquipmentMalfunction" TypeName="TExpModel.t_EquipmentMalfunction" StoreEntitySet="t_EquipmentMalfunction">
+            <EndProperty Name="t_Malfunction">
+              <ScalarProperty Name="FaultId" ColumnName="FaultId" />
+            </EndProperty>
+            <EndProperty Name="t_Equipment">
+              <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="t_EquipmentTypeOfEquipment" TypeName="TExpModel.t_EquipmentTypeOfEquipment" StoreEntitySet="t_EquipmentTypeOfEquipment">
+            <EndProperty Name="t_TypeOfEquipment">
+              <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+            </EndProperty>
+            <EndProperty Name="t_Equipment">
+              <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="t_TypeOfEquipmentMalfunction" TypeName="TExpModel.t_TypeOfEquipmentMalfunction" StoreEntitySet="t_TypeOfEquipmentMalfunction">
+            <EndProperty Name="t_TypeOfEquipment">
+              <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+            </EndProperty>
+            <EndProperty Name="t_Malfunction">
+              <ScalarProperty Name="FaultId" ColumnName="FaultId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="t_ListForPrint">
+            <EntityTypeMapping TypeName="TExpModel.t_ListForPrint">
+              <MappingFragment StoreEntitySet="t_ListForPrint">
+                <ScalarProperty Name="Item3" ColumnName="Item3" />
+                <ScalarProperty Name="Item2" ColumnName="Item2" />
+                <ScalarProperty Name="Item1" ColumnName="Item1" />
+                <ScalarProperty Name="ListId" ColumnName="ListId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_User">
+            <EntityTypeMapping TypeName="TExpModel.t_User">
+              <MappingFragment StoreEntitySet="t_User">
+                <ScalarProperty Name="SigninEndDate" ColumnName="SigninEndDate" />
+                <ScalarProperty Name="SetPasswordEnabled" ColumnName="SetPasswordEnabled" />
+                <ScalarProperty Name="LockoutEndDate" ColumnName="LockoutEndDate" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="SetPasswordEndDate" ColumnName="SetPasswordEndDate" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Sign" ColumnName="Sign" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_UserRole">
+            <EntityTypeMapping TypeName="TExpModel.t_UserRole">
+              <MappingFragment StoreEntitySet="t_UserRole">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="t_UserUserRole" TypeName="TExpModel.t_UserUserRole" StoreEntitySet="t_UserUserRole">
+            <EndProperty Name="t_UserRole">
+              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+            </EndProperty>
+            <EndProperty Name="t_User">
+              <ScalarProperty Name="UserID" ColumnName="UserID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="t_UserExpertise" TypeName="TExpModel.t_UserExpertise" StoreEntitySet="t_UserExpertise">
+            <EndProperty Name="t_User">
+              <ScalarProperty Name="UserID" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="t_Expertise">
+              <ScalarProperty Name="ExpertiseId" ColumnName="ExpertiseId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="t_EquipmentExpertise" TypeName="TExpModel.t_EquipmentExpertise" StoreEntitySet="t_EquipmentExpertise">
+            <EndProperty Name="t_Expertise">
+              <ScalarProperty Name="ExpertiseId" ColumnName="ExpertiseId" />
+            </EndProperty>
+            <EndProperty Name="t_Equipment">
+              <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="t_UsedPassword">
+            <EntityTypeMapping TypeName="TExpModel.t_UsedPassword">
+              <MappingFragment StoreEntitySet="t_UsedPassword">
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UsedPasswordId" ColumnName="UsedPasswordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
