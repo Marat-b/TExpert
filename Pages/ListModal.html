@@ -1,0 +1,37 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Список оборудования</h3>
+</div>
+<div class="modal-body">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+
+                <th>Наименование</th>
+                <th>Серийный номер</th>
+                <th>Инвентарный номер</th>
+                <th>Цена</th>
+                <th>Дата ввода</th>
+                
+                <th>Удалить</th>
+                
+            </tr>
+        </thead>
+        <tr ng-repeat="item in itemLists">
+
+            <td>{{item.Name}}</td>
+            <td>{{item.SerialNumber}}</td>
+            <td>{{item.InventoryNumber}}</td>
+            <td>{{item.Price}}</td>
+            <td>{{item.StartupDate | date: 'dd.MM.yyyy'}}</td>
+            
+            <td>
+                <button class="btn btn-warning" ng-click="deleteFromList(item.EquipmentId)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+            </td>
+         </tr>
+</table>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary" href="Home/PrintList" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
+    
+    <button class="btn" ng-click="cancel()">Отмена</button>
+</div>

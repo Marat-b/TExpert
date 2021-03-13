@@ -1,0 +1,149 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Изменение параметров пользователя</h3>
+</div>
+<div class="modal-body">
+    <form name="formEditUser">
+        <div class="form-horizontal">
+            <input type="hidden" ng-model="formEditUser.UserId"/>
+            <div class="form-group">
+                <label class="control-label col-md-4">Логин</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="formEditUser.UserName" required/>
+                    <span ng-if="formEditUser.UserName.$error.required">Required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">ФИО</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="formEditUser.FIO" required/>
+                    <span ng-if="formEditUser.FIO.$error.required">Required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Должность</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="formEditUser.Position"/>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Принудительная смена пароля</label>
+
+                <input class="checkbox col-md-2" type="checkbox" ng-model="formEditUser.SetPasswordEnabled"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Блокирован</label>
+
+                <input class="checkbox col-md-2" type="checkbox" ng-model="formEditUser.LockoutEnabled"/>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Роли</label>
+                <div class="col-md-8">
+                    <label class="control-label">
+                        <input type="radio" ng-model="formEditUser.UserRole" value="Administrator" name="userrole"/>
+                        Администратор
+                    </label>
+                    <label class="control-label">
+                        <input type="radio" ng-model="formEditUser.UserRole" value="Editor" name="userrole"/>
+                        Редактор
+                    </label>
+                    <label class="control-label">
+                        <input type="radio" ng-model="formEditUser.UserRole" value="Reader" name="userrole"/>
+                        Читатель
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+    
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-4">Подпись</label>
+            <div class="col-md-4">
+                <img ng-src="data:image/jpeg;base64,{{pic}}" width="100" height="100" />
+
+            </div>
+        </div>
+
+
+
+        <!-- Upload -->
+
+
+        <form name="formUpload" server-validate novalidate>
+            <div class="form-group">
+                <div class="col-md-4 drop-target"
+                     flow-init="{target:getURL() , singleFile: true }"
+                     flow-file-added="validateFile($file)"
+                     flow-file-progress="fileUploadProgress($file.progress())"
+                     flow-files-submitted="$flow.upload()"
+                     flow-file-success="fileUploadSuccess($message)"
+                     flow-error="uploadError($message)">
+
+                    <div flow-btn
+                         flow-drop
+                         flow-drag-enter="class='alert-info over'"
+                         flow-drag-leave="class='alert-success'"
+                         flow-attrs="{accept: 'image/*'}"
+                         ng-class="{1:'alert alert-info', 0:'alert alert-warning',2:'alert alert-danger'}[status]">
+                        <span class="glyphicon glyphicon-upload">Щёлкните мышью , чтобы начать загрузку файла.</span> 
+
+                        <div class="pull-right">
+                            <span class="glyphicon glyphicon-ok pull-right" ng-show="fileProgress == 100"></span>
+                        </div>
+                        <!--- {1:'alert alert-info', 0:'alert alert-warning',2:'alert alert-danger',}[status] -->
+                        <!--progressbar value="fileProgress"
+                        ng-show="fileProgress && fileProgress < 100 && formUpload.$valid && !formUpload.$serverErrors"
+                        class="progress-striped active" type="success">{{fileProgress}}%</progressbar-->
+                        <div class="progress" ng-show="fileProgress && fileProgress < 100">
+                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                 aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                 ng-style="{'width': fileProgress}">
+                                {{fileProgress}}
+                            </div>
+                        </div>
+
+                        <div ng-messages="formUpload.$serverErrors.file">
+                            <div ng-message="done">
+                                Well done
+                            </div>
+                            <div ng-message="size">The files is too big!</div>
+                            <div ng-message="type">This file type is not supported!</div>
+                        </div>
+
+                        <!--span ng-messages for="formUpload.$serverErrors.file">
+                        <span ng-message when="size" class="help-block error">The file is too big</span>
+                        <span ng-message when="type" class="help-block error">This file type is not supported</span>
+                        <span ng-message when="server_amount" class="help-block error">Maximum amount of pictures reached</span>
+                        <span ng-message when="server_damaged" class="help-block error">The file appears to be damaged</span>
+                        <span ng-message when="done" class="help-block error">Well done!</span>
+                        </span-->
+                        <!--span ng-messages for="formUpload.$serverErrors.chunk">
+                        <span ng-message when="error">
+                        Error for chunk
+                     </span>
+                        <span-->
+                    </div>
+                    <img flow-img="$flow.files[0]" height="100" width="100" />
+                </div>
+                <div class="col-md-8">
+                    
+                </div>
+                </div>
+        </form>
+    </div>
+    
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok(formEditUser)" ng-disabled="formEditUser.$invalid">Сохранить</button>
+    <button class="btn" ng-click="cancel()">Отмена</button>
+</div>

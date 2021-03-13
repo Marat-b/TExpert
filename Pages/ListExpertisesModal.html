@@ -1,0 +1,44 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Список актов экспертиз</h3>
+</div>
+<div class="modal-body">
+    <div class="col-md-2">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <button class="btn btn-circle btn-success" ng-hide="isReader" ng-click="startWizard(0)" uib-tooltip="Новый акт экспертизы" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-plus"></i></button>
+            </div>
+        </form>
+    </div>
+        <table class="table table-hover" >
+            <thead>
+            <tr>
+                <th>Номер акта</th>
+                <th>ID заявки</th>
+                <th>Дата формирования</th>
+                <th ng-hide="isReader">Редактирование</th>
+                <th>PDF документ</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="item in itemExpertises">
+                <td>
+                    {{item.NumberExp}}
+                </td>
+                <td>
+                    {{item.RequestId}}
+                </td>
+                <td>
+                    {{item.DateExp | date: 'dd.MM.yyyy'}}
+                </td>
+                <td ng-hide="isReader" >
+                    <button class="btn btn-circle btn-info"   ng-click="startWizard(item.ExpertiseId)" uib-tooltip="Редактирование экспертизы оборудования" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-edit"></i></button>
+                </td>
+                <td>
+                    <a class="btn btn-circle btn-info" ng-href="api/PDFDocument/{{item.ExpertiseId}}" target="_blank" uib-tooltip="Формирование PDF документа" tooltip-trigger="mouseenter"><i class="glyphicon glyphicon-file"></i></a>
+                </td>
+            </tr>
+        </table>
+   
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Закрыть</button>
+</div>
